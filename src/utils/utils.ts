@@ -50,3 +50,20 @@ export const LoginSchema = Joi.object().keys({
 export const validatePassword = async(enteredPassword:string, savedPassword:string, salt:string) => {
   return await GeneratePassord(enteredPassword, salt) === savedPassword;
 }
+
+export const updateSchema = Joi.object().keys({
+  firstName: Joi.string().required(), 
+  lastName: Joi.string().required(), 
+  address: Joi.string().required(), 
+  phone: Joi.string().required(),
+})
+
+export const adminSchema = Joi.object().keys({
+  email: Joi.string().email().required(),
+  phone: Joi.string().required(),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+  firstName: Joi.string().required(), 
+  lastName: Joi.string().required(), 
+  address: Joi.string().required(), 
+ 
+})

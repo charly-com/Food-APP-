@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resendOTP = exports.Login = exports.verifyUser = exports.Register = void 0;
+exports.updateUserProfile = exports.getSingleUser = exports.getAllUsers = exports.resendOTP = exports.Login = exports.verifyUser = exports.Register = void 0;
 const utils_1 = require("../utils");
 const userModel_1 = require("../model/userModel");
 const uuid_1 = require("uuid");
@@ -38,7 +38,8 @@ const Register = async (req, res) => {
                 otp_expiry: expiry,
                 lng: 0,
                 lat: 0,
-                verified: false
+                verified: false,
+                role: 'user'
             });
             // send otp
             await (0, utils_1.onRequestOTP)(otp, phone);
@@ -121,7 +122,7 @@ const Login = async (req, res) => {
             });
         }
         const User = await userModel_1.UserInstance.findOne({ where: { email: email } });
-        if (User) {
+        if (User.verified === true) {
             const validation = await (0, utils_1.validatePassword)(password, User.password, User.salt);
             if (validation) {
                 //generate signature
@@ -135,6 +136,7 @@ const Login = async (req, res) => {
                     signature,
                     email: User.email,
                     verified: User.verified,
+                    role: User.role
                 });
             }
         }
@@ -181,3 +183,81 @@ const resendOTP = async (req, res) => {
     }
 };
 exports.resendOTP = resendOTP;
+// profile
+const getAllUsers = async (req, res) => {
+    try {
+        const limit = req.query.limit;
+        // const users = await UserInstance.findAll({});
+        const users = await userModel_1.UserInstance.findAndCountAll({
+            limit: limit
+        });
+        return res.status(200).json({
+            message: "you have succesfully retrevied all users",
+            Count: users.count,
+            Users: users.rows
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            Error: "Internal Server Error",
+            route: "/users/get-all-users"
+        });
+    }
+};
+exports.getAllUsers = getAllUsers;
+// get single user
+const getSingleUser = async (req, res) => {
+    try {
+        const id = req.User.id;
+        const User = await userModel_1.UserInstance.findOne({ where: { id: id } });
+        if (User) {
+            return res.status(200).json({
+                message: "you have succesfully retrevied a single user",
+                User
+            });
+        }
+    }
+    catch (err) {
+        res.status(500).json({
+            Error: "Internal Server Error",
+            route: "/users/get-user"
+        });
+    }
+};
+exports.getSingleUser = getSingleUser;
+const updateUserProfile = async (req, res) => {
+    try {
+        const id = req.user.id;
+        const { firstName, lastName, address, phone } = req.body;
+        const validateResult = utils_1.updateSchema.validate(req.body, utils_1.options);
+        if (validateResult.error) {
+            return res.status(400).json({
+                Error: validateResult.error.details[0].message
+            });
+        }
+        const User = await userModel_1.UserInstance.findOne({ where: { id: id } });
+        if (!User) {
+            return res.status(400).json({
+                Error: "You are not authorized to update your profile",
+            });
+        }
+        const updateUser = await userModel_1.UserInstance.update({ firstName, lastName, address, phone }, { where: { id: id } });
+        if (updateUser) {
+            const User = await userModel_1.UserInstance.findOne({ where: { id: id } });
+            return res.status(200).json({
+                message: "you have succesfulfy updated your profile",
+                User
+            });
+        }
+        return res.status(400).json({
+            Error: "Error updating your profile",
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            Error: "Internal Server Error",
+            route: "/users/update-profile"
+        });
+    }
+};
+exports.updateUserProfile = updateUserProfile;

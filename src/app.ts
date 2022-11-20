@@ -3,6 +3,7 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/Users'; 
 import indexRouter from './routes/index';
+import adminRouter from './routes/Admin';
 import {db} from './config/index';
 
 db.sync().then(() => {
@@ -20,6 +21,7 @@ app.use(cookieParser());
 //Router middleware
 app.use('/users', userRouter);
 app.use("/", indexRouter);
+app.use('/admin', adminRouter);
 
 const port = 4000
 app.listen(port, () => {

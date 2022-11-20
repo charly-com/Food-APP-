@@ -8,6 +8,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const Users_1 = __importDefault(require("./routes/Users"));
 const index_1 = __importDefault(require("./routes/index"));
+const Admin_1 = __importDefault(require("./routes/Admin"));
 const index_2 = require("./config/index");
 index_2.db.sync().then(() => {
     console.log('Database connected');
@@ -21,6 +22,7 @@ app.use((0, cookie_parser_1.default)());
 //Router middleware
 app.use('/users', Users_1.default);
 app.use("/", index_1.default);
+app.use('/admin', Admin_1.default);
 const port = 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

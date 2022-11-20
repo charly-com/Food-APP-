@@ -103,6 +103,10 @@ UserInstance.init({
             }
         }
     },
+    role: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+    },
 }, {
     sequelize: config_1.db,
     tableName: 'user',

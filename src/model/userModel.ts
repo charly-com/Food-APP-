@@ -16,6 +16,8 @@ export interface UserAttributes {
     lng: number;
     lat: number;
     verified: boolean;
+    role: string;
+
 }
 
 export class UserInstance extends Model<UserAttributes> {}
@@ -117,6 +119,11 @@ UserInstance.init({
             }
         }
     },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+   
 
 },
 {
