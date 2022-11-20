@@ -227,7 +227,8 @@ const getSingleUser = async (req, res) => {
 exports.getSingleUser = getSingleUser;
 const updateUserProfile = async (req, res) => {
     try {
-        const id = req.user.id;
+        const id = req.User.id;
+        console.log(id);
         const { firstName, lastName, address, phone } = req.body;
         const validateResult = utils_1.updateSchema.validate(req.body, utils_1.options);
         if (validateResult.error) {
@@ -241,9 +242,13 @@ const updateUserProfile = async (req, res) => {
                 Error: "You are not authorized to update your profile",
             });
         }
-        const updateUser = await userModel_1.UserInstance.update({ firstName, lastName, address, phone }, { where: { id: id } });
-        if (updateUser) {
-            const User = await userModel_1.UserInstance.findOne({ where: { id: id } });
+        const updatedUser = await userModel_1.UserInstance.update({
+            firstName,
+            lastName,
+            address,
+            phone
+        }, { where: { id: id } });
+        if (updatedUser) {
             return res.status(200).json({
                 message: "you have succesfulfy updated your profile",
                 User
@@ -255,7 +260,8 @@ const updateUserProfile = async (req, res) => {
     }
     catch (err) {
         res.status(500).json({
-            Error: "Internal Server Error",
+            // Error: "Internal Server Error",
+            err,
             route: "/users/update-profile"
         });
     }

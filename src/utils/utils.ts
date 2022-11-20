@@ -67,3 +67,15 @@ export const adminSchema = Joi.object().keys({
   address: Joi.string().required(), 
  
 })
+
+export const vendorSchema = Joi.object().keys({
+  email: Joi.string().email().required(),
+  phone: Joi.string().required(),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+  name: Joi.string().required(), 
+  ownerName: Joi.string().required(), 
+  address: Joi.string().required(), 
+  pincode: Joi.string().required(), 
+
+ 
+})

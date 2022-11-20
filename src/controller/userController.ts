@@ -254,7 +254,8 @@ export const getSingleUser = async (req: JwtPayload, res: Response) => {
 
 export const updateUserProfile = async (req: JwtPayload, res: Response) => {
   try {
-    const id = req.user.id;
+    const id = req.User.id;
+    console.log(id)
     const { firstName, lastName, address, phone } = req.body;
     const validateResult = updateSchema.validate(req.body, options);
     if (validateResult.error) {
@@ -269,10 +270,14 @@ export const updateUserProfile = async (req: JwtPayload, res: Response) => {
         Error: "You are not authorized to update your profile",
       });
     }
-    const updateUser = await UserInstance.update({ firstName, lastName, address, phone }, { where: { id: id } }) as unknown as UserAttributes;
+    const updatedUser = await UserInstance.update({ 
+      firstName, 
+      lastName, 
+      address, 
+      phone }, { where: { id: id } }) as unknown as UserAttributes;
 
-    if (updateUser) {
-      const User = await UserInstance.findOne({ where: { id: id } }) as unknown as UserAttributes;
+    if (updatedUser) {
+      
       return res.status(200).json({
         message: "you have succesfulfy updated your profile",
         User
@@ -283,7 +288,8 @@ export const updateUserProfile = async (req: JwtPayload, res: Response) => {
     })
   } catch (err) {
     res.status(500).json({
-      Error: "Internal Server Error",
+      // Error: "Internal Server Error",
+      err,
       route: "/users/update-profile"
     })
   }

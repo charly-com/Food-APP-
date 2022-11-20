@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import userRouter from './routes/Users'; 
 import indexRouter from './routes/index';
 import adminRouter from './routes/Admin';
+import vendorRouter from './routes/Vendor';
 import {db} from './config/index';
 
 db.sync().then(() => {
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use('/users', userRouter);
 app.use("/", indexRouter);
 app.use('/admin', adminRouter);
+app.use('/vendors', vendorRouter);
 
 const port = 4000
 app.listen(port, () => {

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.adminSchema = exports.updateSchema = exports.validatePassword = exports.LoginSchema = exports.verifySignature = exports.GenerateSignature = exports.GeneratePassord = exports.GenerateSalt = exports.options = exports.registerSchema = void 0;
+exports.vendorSchema = exports.adminSchema = exports.updateSchema = exports.validatePassword = exports.LoginSchema = exports.verifySignature = exports.GenerateSignature = exports.GeneratePassord = exports.GenerateSalt = exports.options = exports.registerSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -62,4 +62,13 @@ exports.adminSchema = joi_1.default.object().keys({
     firstName: joi_1.default.string().required(),
     lastName: joi_1.default.string().required(),
     address: joi_1.default.string().required(),
+});
+exports.vendorSchema = joi_1.default.object().keys({
+    email: joi_1.default.string().email().required(),
+    phone: joi_1.default.string().required(),
+    password: joi_1.default.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+    name: joi_1.default.string().required(),
+    ownerName: joi_1.default.string().required(),
+    address: joi_1.default.string().required(),
+    pincode: joi_1.default.string().required(),
 });
