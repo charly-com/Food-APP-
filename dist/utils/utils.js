@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.vendorSchema = exports.adminSchema = exports.updateSchema = exports.validatePassword = exports.LoginSchema = exports.verifySignature = exports.GenerateSignature = exports.GeneratePassord = exports.GenerateSalt = exports.options = exports.registerSchema = void 0;
+exports.createFoodSchema = exports.vendorSchema = exports.adminSchema = exports.updateSchema = exports.validatePassword = exports.LoginSchema = exports.verifySignature = exports.GenerateSignature = exports.GeneratePassord = exports.GenerateSalt = exports.options = exports.registerSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -71,4 +71,12 @@ exports.vendorSchema = joi_1.default.object().keys({
     ownerName: joi_1.default.string().required(),
     address: joi_1.default.string().required(),
     pincode: joi_1.default.string().required(),
+});
+exports.createFoodSchema = joi_1.default.object().keys({
+    name: joi_1.default.string().required(),
+    description: joi_1.default.string().required(),
+    category: joi_1.default.string().required(),
+    foodType: joi_1.default.string().required(),
+    readyTime: joi_1.default.number().required(),
+    price: joi_1.default.number().required(),
 });

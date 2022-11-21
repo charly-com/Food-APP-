@@ -14,7 +14,6 @@ export const adminRegister = async (req: JwtPayload, res: Response) => {
         const uuidUser = uuidv4()
         const validateResult = adminSchema.validate(req.body, options)
         if(validateResult.error){
-            console.log(validateResult.error.details[0].message)
             return res.status(400).json({
                 Error: validateResult.error.details[0].message
             })

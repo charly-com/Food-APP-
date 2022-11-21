@@ -75,7 +75,16 @@ export const vendorSchema = Joi.object().keys({
   name: Joi.string().required(), 
   ownerName: Joi.string().required(), 
   address: Joi.string().required(), 
-  pincode: Joi.string().required(), 
-
+  pincode: Joi.string().required(),
  
+})
+
+export const createFoodSchema = Joi.object().keys({
+  name: Joi.string().required(),
+  description: Joi.string().required(),
+  category: Joi.string().required(), 
+  foodType: Joi.string().required(), 
+  readyTime: Joi.number().required(),
+  price: Joi.number().required(), 
+
 })
