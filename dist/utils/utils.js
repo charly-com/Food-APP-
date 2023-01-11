@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createFoodSchema = exports.vendorSchema = exports.adminSchema = exports.updateSchema = exports.validatePassword = exports.LoginSchema = exports.verifySignature = exports.GenerateSignature = exports.GeneratePassord = exports.GenerateSalt = exports.options = exports.registerSchema = void 0;
+exports.updateVendorSchema = exports.createFoodSchema = exports.vendorSchema = exports.adminSchema = exports.updateSchema = exports.validatePassword = exports.LoginSchema = exports.verifySignature = exports.GenerateSignature = exports.GeneratePassord = exports.GenerateSalt = exports.options = exports.registerSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -68,7 +68,7 @@ exports.vendorSchema = joi_1.default.object().keys({
     phone: joi_1.default.string().required(),
     password: joi_1.default.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
     name: joi_1.default.string().required(),
-    ownerName: joi_1.default.string().required(),
+    restaurateName: joi_1.default.string().required(),
     address: joi_1.default.string().required(),
     pincode: joi_1.default.string().required(),
 });
@@ -79,4 +79,10 @@ exports.createFoodSchema = joi_1.default.object().keys({
     foodType: joi_1.default.string().required(),
     readyTime: joi_1.default.number().required(),
     price: joi_1.default.number().required(),
+});
+exports.updateVendorSchema = joi_1.default.object().keys({
+    name: joi_1.default.string(),
+    phone: joi_1.default.string(),
+    address: joi_1.default.string(),
+    coverImage: joi_1.default.string(),
 });

@@ -161,7 +161,7 @@ const Admin = await UserInstance.findOne(
 export const createVendor = async (req: JwtPayload, res: Response) => {
     try {
         const id = req.User.id;
-        const {name, ownerName, pincode, phone, email, address, password} = req.body;
+        const {name, restaurateName, pincode, phone, email, address, password} = req.body;
         const uuidvendor = uuidv4()
         const validateResult = vendorSchema.validate(req.body, options)
         if(validateResult.error){
@@ -185,7 +185,7 @@ export const createVendor = async (req: JwtPayload, res: Response) => {
                     password: vendorPassword,
                     name,
                     phone,
-                    ownerName,
+                    restaurateName,
                     address,
                     email,
                     pincode,
@@ -193,6 +193,7 @@ export const createVendor = async (req: JwtPayload, res: Response) => {
                     role: "vendor",
                     serviceAvailable: false,
                     rating:0,
+                    coverImage: req.file.path,
                 })
                 return res.status(201).json({
                     message: 'Vendor created successfully',

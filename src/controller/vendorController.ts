@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
 import { FoodAttributes, FoodInstance } from '../model/foodModel';
 import { VendorAttributes, VendorInstance } from '../model/vendorModel';
-import { createFoodSchema, GenerateSignature, LoginSchema, options, validatePassword } from '../utils';
+import { createFoodSchema, GenerateSignature, LoginSchema, options, updateVendorSchema, validatePassword } from '../utils';
 import { v4 as uuidv4 } from 'uuid';
 
 // Vendor Lofin
@@ -79,6 +79,7 @@ export const createFood = async (req: JwtPayload, res: Response) => {
                 price,
                 rating: 0,
                 vendorId: id,
+                image: req.file.path
 
             })
             return res.status(200).json({
@@ -138,6 +139,7 @@ export const deleteFood = async (req: JwtPayload, res: Response) => {
 
             return res.status(200).json({
                 message: "Food deleted successfully",
+                deletedFood
             })
         }
     } catch(err) {
@@ -147,4 +149,47 @@ export const deleteFood = async (req: JwtPayload, res: Response) => {
         })
     }
 }
+
+export const updateVendor = async (req: JwtPayload, res: Response) => {
+    try {
+      const id = req.vendor.id;
+      const { name, phone, coverImage, address } = req.body;
+      const validateResult = updateVendorSchema.validate(req.body, options);
+      if (validateResult.error) {
+        return res.status(400).json({
+          Error: validateResult.error.details[0].message
+        })
+      }
+      const Vendor = await VendorInstance.findOne({ where: { id: id } }) as unknown as VendorAttributes;
+  
+      if (!Vendor) {
+        return res.status(400).json({
+          Error: "You are not authorized to update your profile",
+        });
+      }
+      const updatedVendor = await VendorInstance.update({ 
+        name, 
+        phone, 
+        address, 
+        coverImage: req.file.path 
+    }, { where: { id: id } }) as unknown as VendorAttributes;
+  
+      if (updatedVendor) {
+        
+        return res.status(200).json({
+          message: "you have succesfulfy updated your profile",
+          Vendor
+        })
+      }
+      return res.status(400).json({
+        Error: "Error updating your profile",
+      })
+    } catch (err) {
+      res.status(500).json({
+        // Error: "Internal Server Error",
+        err,
+        route: "/vendors/update-profile"
+      })
+    }
+  }
 

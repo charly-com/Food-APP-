@@ -7,7 +7,7 @@ import adminRouter from './routes/Admin';
 import vendorRouter from './routes/Vendor';
 import {db} from './config/index';
 
-db.sync().then(() => {
+db.sync({}).then(() => {
     console.log('Database connected');
 }).catch(err=> {
     console.log(err);

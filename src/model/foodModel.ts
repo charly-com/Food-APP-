@@ -12,6 +12,7 @@ export interface FoodAttributes {
     price: number;
     rating: number;
     vendorId: string;
+    image: string;
 }
 
 export class FoodInstance extends Model<FoodAttributes> {}
@@ -54,6 +55,10 @@ FoodInstance.init({
     },
     vendorId: {
         type: DataTypes.UUIDV4,
+        allowNull: true,
+    },
+    image: {
+        type: DataTypes.NUMBER,
         allowNull: true,
     },
 

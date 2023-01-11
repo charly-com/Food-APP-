@@ -45,7 +45,7 @@ export const Register = async (req: Request, res: Response) => {
         role: 'user'
       })
       // send otp
-      await onRequestOTP(otp, phone);
+      // await onRequestOTP(otp, phone);
 
       // send email
       const html = emailHtml(otp);
@@ -126,7 +126,7 @@ export const verifyUser = async (req: Request, res: Response) => {
 
 // Login user
 
-export const Login = async (req: Request, res: Response) => {
+export const  Login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const validateResult = LoginSchema.validate(req.body, options);
@@ -255,7 +255,7 @@ export const getSingleUser = async (req: JwtPayload, res: Response) => {
 export const updateUserProfile = async (req: JwtPayload, res: Response) => {
   try {
     const id = req.User.id;
-    console.log(id)
+  
     const { firstName, lastName, address, phone } = req.body;
     const validateResult = updateSchema.validate(req.body, options);
     if (validateResult.error) {

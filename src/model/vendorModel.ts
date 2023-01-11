@@ -6,7 +6,7 @@ import { FoodInstance } from "./foodModel";
 export interface VendorAttributes {
     id: string;
     name: string;
-    ownerName: string;
+    restaurateName: string;
     pincode: string;
     email: string;
     salt: string;
@@ -16,6 +16,7 @@ export interface VendorAttributes {
     serviceAvailable: boolean;
     rating: number;
     role: string;
+    coverImage: string;
 }
 
 export class VendorInstance extends Model<VendorAttributes> {}
@@ -55,7 +56,7 @@ VendorInstance.init({
         type: DataTypes.STRING,
         allowNull: true,
     },
-    ownerName: {
+    restaurateName: {
         type: DataTypes.STRING,
         allowNull: true,
     },
@@ -93,6 +94,10 @@ VendorInstance.init({
 
     },
     role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    coverImage: {
         type: DataTypes.STRING,
         allowNull: false,
     },

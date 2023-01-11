@@ -42,7 +42,7 @@ const Register = async (req, res) => {
                 role: 'user'
             });
             // send otp
-            await (0, utils_1.onRequestOTP)(otp, phone);
+            // await onRequestOTP(otp, phone);
             // send email
             const html = (0, utils_1.emailHtml)(otp);
             await (0, utils_1.Mailsend)(config_1.fromAdminMail, email, config_1.userSubject, html);
@@ -228,7 +228,6 @@ exports.getSingleUser = getSingleUser;
 const updateUserProfile = async (req, res) => {
     try {
         const id = req.User.id;
-        console.log(id);
         const { firstName, lastName, address, phone } = req.body;
         const validateResult = utils_1.updateSchema.validate(req.body, utils_1.options);
         if (validateResult.error) {

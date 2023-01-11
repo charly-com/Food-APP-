@@ -11,7 +11,7 @@ const index_1 = __importDefault(require("./routes/index"));
 const Admin_1 = __importDefault(require("./routes/Admin"));
 const Vendor_1 = __importDefault(require("./routes/Vendor"));
 const index_2 = require("./config/index");
-index_2.db.sync().then(() => {
+index_2.db.sync({}).then(() => {
     console.log('Database connected');
 }).catch(err => {
     console.log(err);
